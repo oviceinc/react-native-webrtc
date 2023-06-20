@@ -15,9 +15,12 @@ Pod::Spec.new do |s|
   s.platforms           = { :ios => '12.0', :osx => '10.13' }
 
   s.preserve_paths      = 'ios/**/*'
-  s.source_files        = 'ios/**/*.{h,m}'
+  s.source_files        = 'ios/**/*.{h,m,mm,hpp}'
   s.libraries           = 'c', 'sqlite3', 'stdc++'
   s.framework           = 'AudioToolbox','AVFoundation', 'CoreAudio', 'CoreGraphics', 'CoreVideo', 'GLKit', 'VideoToolbox'
+  s.ios.vendored_frameworks   = 'apple/WebRTC.xcframework', 'ios/lib/krispSDK.xcframework', 'ios/AudioProcessor'
+  s.ios.public_header_files = 'ios/lib/inc/krisp-audio-sdk.hpp'
   s.dependency          'React-Core'
-  s.dependency          'JitsiWebRTC', '~> 111.0.0'
+  s.resource            = "dist/models/*.kw"
+
 end
