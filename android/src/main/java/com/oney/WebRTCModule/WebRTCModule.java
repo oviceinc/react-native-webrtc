@@ -1320,4 +1320,18 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     public void removeListeners(Integer count) {
         // Keep: Required for RN built in Event Emitter Calls.
     }
+
+    @ReactMethod
+    public void createNCSession() {
+        // TODO: implement
+    }
+
+    @ReactMethod
+    public void closeNCSession() {
+        // TODO: implement
+    }
+    @ReactMethod
+    public void enableNC(boolean isEnabled) {
+        // TODO: implement
+    }
 }

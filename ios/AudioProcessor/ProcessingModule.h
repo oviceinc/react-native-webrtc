@@ -9,27 +9,30 @@
 #import <Foundation/Foundation.h>
 #include <string>
 
-class ProcessingModule final
-{
+class ProcessingModule final {
     int m_sampleRateHz;
     int m_numChannels;
 
     static bool m_isEnableAudioFilter;
-public:
-    ProcessingModule ();
+
+   public:
+    ProcessingModule();
     ~ProcessingModule();
-    
+
     void static enableNC(const bool isEnable);
 
     void createSession(const int rate);
     void closeSession();
-    void init( );
-    void reset( );
+    void init();
+    void reset();
     void resetSampleRate(const int newRate);
     void destroy();
-    void setName(const std::string& name);
+    void setName(const std::string &name);
     void setModel();
     void initSession(const int sampleRateHz, const int numChannels);
-    void frameProcess(const size_t channelNumber, const size_t num_bands, const size_t bufferSize, float * _Nonnull buffer);
-    void modifyAudioStream(std::vector<float>& buffer, float gain);
+    void frameProcess(const size_t channelNumber,
+                      const size_t num_bands,
+                      const size_t bufferSize,
+                      float *_Nonnull buffer);
+    void modifyAudioStream(std::vector<float> &buffer, float gain);
 };

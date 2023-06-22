@@ -11,7 +11,8 @@
 @interface AudioProcessor : NSObject
 
 - (instancetype)init;
++ (void)createAudioNoiseCancellingSession;
++ (void)closeAudioNoiseCancellingSession;
 + (void)enableAudioFilter:(BOOL)enable;
 
 @end
-

@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.source_files        = 'ios/**/*.{h,m,mm,hpp}'
   s.libraries           = 'c', 'sqlite3', 'stdc++'
   s.framework           = 'AudioToolbox','AVFoundation', 'CoreAudio', 'CoreGraphics', 'CoreVideo', 'GLKit', 'VideoToolbox'
-  s.ios.vendored_frameworks   = 'apple/WebRTC.xcframework', 'ios/lib/krispSDK.xcframework', 'ios/AudioProcessor'
+  s.ios.vendored_frameworks   = 'ios/WebRTC.xcframework', 'ios/lib/krispSDK.xcframework'
   s.ios.public_header_files = 'ios/lib/inc/krisp-audio-sdk.hpp'
   s.dependency          'React-Core'
   s.resource            = "dist/models/*.kw"
