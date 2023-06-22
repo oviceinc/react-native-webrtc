@@ -68,8 +68,11 @@
         RCTLogInfo(@"Using video encoder factory: %@", NSStringFromClass([encoderFactory class]));
         RCTLogInfo(@"Using video decoder factory: %@", NSStringFromClass([decoderFactory class]));
 
-        _peerConnectionFactory = [[RTCPeerConnectionFactory alloc] initWithEncoderFactory:encoderFactory
-                                                                           decoderFactory:decoderFactory];
+        id<RTCAudioProcessorDelegate> audioProcessor = [[AudioProcessor alloc] init];
+        _audioProcessor = audioProcessor;
+        _peerConnectionFactory = [RTCPeerConnectionFactory setup:encoderFactory
+                                                  decoderFactory:decoderFactory
+                                          audioProcessorDelegate:audioProcessor];
 
         _peerConnections = [NSMutableDictionary new];
         _localStreams = [NSMutableDictionary new];
