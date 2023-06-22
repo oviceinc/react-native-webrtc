@@ -3,8 +3,6 @@ const { WebRTCModule } = NativeModules;
 
 class RTCAudioNoiseCancelling {
     createNCSession(): number {
-        console.log(WebRTCModule);
-
         return WebRTCModule.createNCSession();
     }
 
