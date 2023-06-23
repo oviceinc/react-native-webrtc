@@ -20,6 +20,7 @@
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "dependencies": {
+    "@octokit/rest": "^19.0.13",
     "adm-zip": "0.5.9",
     "base64-js": "1.5.1",
     "debug": "4.3.4",
@@ -33,7 +34,8 @@
     "lint": "eslint --max-warnings 0 . && tsc --noEmit",
     "prepare": "husky install && bob build",
     "format": "tools/format.sh",
-    "postinstall": "tools/downloadLibs.sh"
+    "#postinstall": "tools/downloadLibs.sh",
+    "postinstall": "node tools/downloadWebRTC.js"
   },
   "bugs": {
     "url": "https://github.com/react-native-webrtc/react-native-webrtc/issues"
@@ -74,5 +76,33 @@
       "android": "https://api.github.com/repos/oviceinc/krisp-noise-cancelling-library/releases/assets/113850491"
     },
     "model-files": "https://api.github.com/repos/oviceinc/krisp-noise-cancelling-library/releases/assets/113850516"
+  },
+  "download-assets": {
+    "owner": "oviceinc",
+    "repo": "krisp-noise-cancelling-library",
+    "webrtc-builds": {
+      "ios": {
+        "asset_id": "113850504",
+        "file_name": "ios-Webrtc.zip"
+      },
+      "android": {
+        "asset_id": "",
+        "file_name": "android-Webrtc.zip"
+      }
+    },
+    "libs": {
+      "ios": {
+        "asset_id": "113850500",
+        "file_name": "ios-krispSDK.zip"
+      },
+      "android": {
+        "asset_id": "113850491",
+        "file_name": "android-krispSDK.zip"
+      }
+    },
+    "model-files": {
+      "asset_id": "113850516",
+      "file_name": "model-files.zip"
+    }
   }
 }
