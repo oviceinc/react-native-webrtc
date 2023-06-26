@@ -15,6 +15,7 @@ import MediaStream from './MediaStream';
 import MediaStreamTrack from './MediaStreamTrack';
 import MediaStreamTrackEvent from './MediaStreamTrackEvent';
 import permissions from './Permissions';
+import RTCAudioNoiseCancelling from './RTCAudioNoiseCancelling';
 import RTCErrorEvent from './RTCErrorEvent';
 import RTCIceCandidate from './RTCIceCandidate';
 import RTCPeerConnection from './RTCPeerConnection';
@@ -45,6 +46,7 @@ export {
     MediaStreamTrack,
     mediaDevices,
     permissions,
+    RTCAudioNoiseCancelling,
     registerGlobals
 };
 
