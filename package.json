@@ -34,8 +34,7 @@
     "lint": "eslint --max-warnings 0 . && tsc --noEmit",
     "prepare": "husky install && bob build",
     "format": "tools/format.sh",
-    "#postinstall": "tools/downloadLibs.sh",
-    "postinstall": "node tools/downloadWebRTC.js"
+    "postinstall": "node tools/downloadLibs.js"
   },
   "bugs": {
     "url": "https://github.com/react-native-webrtc/react-native-webrtc/issues"
@@ -65,17 +64,6 @@
       "module",
       "typescript"
     ]
-  },
-  "download-urls": {
-    "webrtc-builds": {
-      "ios": "https://api.github.com/repos/oviceinc/krisp-noise-cancelling-library/releases/assets/113850504",
-      "android": ""
-    },
-    "krisp-sdk": {
-      "ios": "https://api.github.com/repos/oviceinc/krisp-noise-cancelling-library/releases/assets/113850500",
-      "android": "https://api.github.com/repos/oviceinc/krisp-noise-cancelling-library/releases/assets/113850491"
-    },
-    "model-files": "https://api.github.com/repos/oviceinc/krisp-noise-cancelling-library/releases/assets/113850516"
   },
   "download-assets": {
     "owner": "oviceinc",
