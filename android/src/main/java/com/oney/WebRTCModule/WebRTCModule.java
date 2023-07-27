@@ -1,5 +1,6 @@
 package com.oney.WebRTCModule;
 
+import android.content.res.AssetManager;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -26,7 +27,12 @@ import com.oney.WebRTCModule.webrtcutils.H264AndSoftwareVideoEncoderFactory;
 import org.webrtc.*;
 import org.webrtc.audio.AudioDeviceModule;
 import org.webrtc.audio.JavaAudioDeviceModule;
+import org.webrtc.KrispAudioProcessingImpl;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +48,7 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
     PeerConnectionFactory mFactory;
     VideoEncoderFactory mVideoEncoderFactory;
     VideoDecoderFactory mVideoDecoderFactory;
+    KrispAudioProcessingImpl apm;
 
     // Need to expose the peer connection codec factories here to get capabilities
     private final SparseArray<PeerConnectionObserver> mPeerConnectionObservers;
@@ -94,10 +101,17 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "Using video encoder factory: " + encoderFactory.getClass().getCanonicalName());
         Log.d(TAG, "Using video decoder factory: " + decoderFactory.getClass().getCanonicalName());
 
+        // // Creating KrispProcessor object
+        apm = new KrispAudioProcessingImpl();
+        String tempString = copyWeightFileToTemp(reactContext);
+        // Initializing
+        apm.KrispInit(tempString);
+
         mFactory = PeerConnectionFactory.builder()
                            .setAudioDeviceModule(adm)
                            .setVideoEncoderFactory(encoderFactory)
                            .setVideoDecoderFactory(decoderFactory)
+                           .setAudioProcessingFactory(apm)
                            .createPeerConnectionFactory();
 
         // Saving the encoder and decoder factories to get codec info later when needed.
@@ -1323,15 +1337,42 @@ public class WebRTCModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void createNCSession() {
-        // TODO: implement
+        // In the case of Android, there is no need to call this because CreateSession is done in Initialize.
     }
 
     @ReactMethod
     public void closeNCSession() {
-        // TODO: implement
+        // there is also no need to call this.
     }
+
     @ReactMethod
     public void enableNC(boolean isEnabled) {
-        // TODO: implement
+        apm.KrispDisable(!isEnabled);
+    }
+
+    private String copyWeightFileToTemp(ReactApplicationContext reactContext) {
+        String tempFilePath = "";
+        try {
+            AssetManager assetManager = reactContext.getAssets();
+
+            // Destination storage path to copy
+            tempFilePath = reactContext.getFilesDir() + File.separator + "weight.kw";
+
+            // open assets/model_*.kw
+            InputStream inputStream = assetManager.open("model_16.kw");
+            FileOutputStream fileOutputStream = new FileOutputStream(tempFilePath);
+
+            byte[] buffer = new byte[1024];
+            int size;
+            while ((size = inputStream.read(buffer)) != -1) {
+                fileOutputStream.write(buffer, 0, size);
+            }
+
+            fileOutputStream.close();
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tempFilePath;
     }
 }
