@@ -84,14 +84,16 @@ async function download(option, filePath) {
             dstDir: `${__dirname}/../android/`
         });
     }
-    const androidLib = libs['android'];
-    if (androidLib && androidLib['asset_id']) {
-        items.push({
-            assetId: androidLib['asset_id'],
-            dstFileName: androidLib['file_name'],
-            dstDir: `${__dirname}/../android/`
-        });
-    }
+
+    // Android Krisp library is included in the webrtc library, so this process is unnecessary
+    // const androidLib = libs['android'];
+    // if (androidLib && androidLib['asset_id']) {
+    //     items.push({
+    //         assetId: androidLib['asset_id'],
+    //         dstFileName: androidLib['file_name'],
+    //         dstDir: `${__dirname}/../android/`
+    //     });
+    // }
 
     const modelFiles = assets['model-files'];
     if (modelFiles) {
@@ -121,7 +123,6 @@ async function download(option, filePath) {
         try {
 
           await download({...option, asset_id: assetId}, dstPath);
-//          console.log(`completed downloading`);
           if (path.extname(dstPath) === '.zip') {
               const zip = AdmZip(dstPath);
 
@@ -129,6 +130,19 @@ async function download(option, filePath) {
           } else {
               tar.extract({file: dstPath, cwd: dstDir, sync: true, strict: true});
           }
+
+        if (dstFileName === 'model-files.zip') {
+            // copy model files to android/src/main/assets
+            const modelFilesDstDir = path.join(dstDir, 'android/src/main/assets');
+            if (!fs.existsSync(modelFilesDstDir)) {
+                fs.mkdirSync(modelFilesDstDir);
+            }
+            const modelFilesSrcDir = path.join(dstDir, 'dist/models');
+            const modelFiles = fs.readdirSync(modelFilesSrcDir);
+            for (const modelFile of modelFiles) {
+                fs.copyFileSync(path.join(modelFilesSrcDir, modelFile), path.join(modelFilesDstDir, modelFile));
+            }
+        }
 
           console.log('Done!');
         } catch (e) {
